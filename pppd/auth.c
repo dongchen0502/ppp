@@ -739,7 +739,12 @@ link_established(unit)
     lcp_options *ho = &lcp_hisoptions[unit];
     int i;
     struct protent *protp;
-
+	warn("we want neg_upap = %d", wo->neg_upap);
+	warn("we want neg_chap = %d", wo->neg_chap);
+	warn("we want neg_eap = %d", wo->neg_eap);
+	warn("his want neg_upap = %d", ho->neg_upap);
+	warn("his want neg_chap = %d", ho->neg_chap);
+	warn("his want neg_eap = %d", ho->neg_eap);
     /*
      * Tell higher-level protocols that LCP is up.
      */
@@ -765,9 +770,9 @@ link_established(unit)
 	    set_allowed_addrs(unit, NULL, NULL);
 	} else if (!wo->neg_upap || uselogin || !null_login(unit)) {
 		go->neg_upap = 1;
-		warn("neg_upap = %d", go->neg_upap);
-		warn("neg_chap = %d", go->neg_chap);
-		warn("neg_eap = ", go->neg_eap);
+		warn("got neg_upap = %d", go->neg_upap);
+		warn("got neg_chap = %d", go->neg_chap);
+		warn("got neg_eap = %d", go->neg_eap);
 	    warn("TEST edit: peer refused to authenticate: terminating link");
 // 	    status = EXIT_PEER_AUTH_FAILED;
 // 	    lcp_close(unit, "peer refused to authenticate");
