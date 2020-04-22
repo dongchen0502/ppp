@@ -170,14 +170,17 @@ void
 fsm_open(f)
     fsm *f;
 {
+	
     switch( f->state ){
     case INITIAL:
+	warn("INITIAL*******fsm state = %d", f->state);
 	f->state = STARTING;
 	if( f->callbacks->starting )
 	    (*f->callbacks->starting)(f);
 	break;
 
     case CLOSED:
+	warn("CLOSED*******fsm state = %d", f->state);		    
 	if( f->flags & OPT_SILENT )
 	    f->state = STOPPED;
 	else {
@@ -188,10 +191,12 @@ fsm_open(f)
 	break;
 
     case CLOSING:
+	warn("CLOSING*******fsm state = %d", f->state);	    
 	f->state = STOPPING;
 	/* fall through */
     case STOPPED:
     case OPENED:
+	warn("OPENED*******fsm state = %d", f->state);	 
 	if( f->flags & OPT_RESTART ){
 	    fsm_lowerdown(f);
 	    fsm_lowerup(f);
