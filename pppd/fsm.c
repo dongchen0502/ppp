@@ -103,6 +103,7 @@ fsm_lowerup(f)
 	break;
 
     case STARTING:
+	warn("fsm-lowerup:STARTING flag = %d, silent = %d",f->flags,OPT_SILENT)
 	if( f->flags & OPT_SILENT )
 	    f->state = STOPPED;
 	else {
