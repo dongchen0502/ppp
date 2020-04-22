@@ -2095,7 +2095,7 @@ auth_number()
 {
     struct wordlist *wp = permitted_numbers;
     int l;
-warn("----------> remote number = s%", remote_number);
+warn("----------> remote number = %s", remote_number);
     /* Allow all if no authorization list. */
     if (!wp)
 	return 1;
