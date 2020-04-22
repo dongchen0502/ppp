@@ -745,6 +745,9 @@ link_established(unit)
 	warn("his want neg_upap = %d", ho->neg_upap);
 	warn("his want neg_chap = %d", ho->neg_chap);
 	warn("his want neg_eap = %d", ho->neg_eap);
+	warn("1got neg_upap = %d", go->neg_upap);
+	warn("got neg_chap = %d", go->neg_chap);
+	warn("got neg_eap = %d", go->neg_eap);
     /*
      * Tell higher-level protocols that LCP is up.
      */
@@ -754,7 +757,9 @@ link_established(unit)
 		&& protp->lowerup != NULL)
 		(*protp->lowerup)(unit);
     }
-
+warn("2got neg_upap = %d", go->neg_upap);
+	warn("got neg_chap = %d", go->neg_chap);
+	warn("got neg_eap = %d", go->neg_eap);
     if (!auth_required && noauth_addrs != NULL)
 	set_allowed_addrs(unit, NULL, NULL);
 
@@ -779,25 +784,31 @@ link_established(unit)
 // 	    return;
 	}
     }
-
+warn("cur stat = %d", PHASE_AUTHENTICATE);
+	
     new_phase(PHASE_AUTHENTICATE);
     auth = 0;
     if (go->neg_eap) {
 	eap_authpeer(unit, our_name);
 	auth |= EAP_PEER;
+	     warn("eap auth = %d", auth);
     } else if (go->neg_chap) {
 	chap_auth_peer(unit, our_name, CHAP_DIGEST(go->chap_mdtype));
 	auth |= CHAP_PEER;
+	    	     warn("chap auth = %d", auth);
     } else if (go->neg_upap) {
 	upap_authpeer(unit);
 	auth |= PAP_PEER;
+	    	    	     warn("pap auth = %d", auth);
     }
     if (ho->neg_eap) {
 	eap_authwithpeer(unit, user);
 	auth |= EAP_WITHPEER;
+	    warn("peer eap auth = %d", auth);
     } else if (ho->neg_chap) {
 	chap_auth_with_peer(unit, user, CHAP_DIGEST(ho->chap_mdtype));
 	auth |= CHAP_WITHPEER;
+	    warn("peer chap auth = %d", auth);
     } else if (ho->neg_upap) {
 	/* If a blank password was explicitly given as an option, trust
 	   the user and don't try to look up one. */
@@ -808,6 +819,7 @@ link_established(unit)
 	}
 	upap_authwithpeer(unit, user, passwd);
 	auth |= PAP_WITHPEER;
+	    warn("peer pap auth = %d", auth);
     }
     auth_pending[unit] = auth;
     auth_done[unit] = 0;
