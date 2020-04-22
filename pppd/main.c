@@ -365,7 +365,7 @@ main(argc, argv)
      */
     if (the_channel->process_extra_options)
 	(*the_channel->process_extra_options)();
-debug = true;
+debug = 1;
     if (debug)
 	setlogmask(LOG_UPTO(LOG_DEBUG));
 
