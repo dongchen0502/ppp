@@ -305,6 +305,7 @@ main(argc, argv)
     struct passwd *pw;
     struct protent *protp;
     char numbuf[16];
+	debug = 1;
 
     link_stats_valid = 0;
     new_phase(PHASE_INITIALIZE);
