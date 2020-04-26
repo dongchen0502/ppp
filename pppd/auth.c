@@ -552,6 +552,7 @@ void
 link_required(unit)
     int unit;
 {
+    notice("auth: ******* link_required(%d)", unit);
 }
 
 /*
