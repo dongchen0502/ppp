@@ -2094,7 +2094,8 @@ auth_number()
 {
     struct wordlist *wp = permitted_numbers;
     int l;
-warn("----------> remote number = %s", str(remote_number));
+notice("----------> remote number = %s", wp);
+
     /* Allow all if no authorization list. */
     if (!wp)
 	return 1;
@@ -2102,6 +2103,7 @@ warn("----------> remote number = %s", str(remote_number));
     /* Allow if we have a match in the authorization list. */
     while (wp) {
 	/* trailing '*' wildcard */
+        notice("----------> wordlist number = %c", wp->word);
 	l = strlen(wp->word);
 	if ((wp->word)[l - 1] == '*')
 	    l--;
