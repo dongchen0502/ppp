@@ -758,9 +758,7 @@ link_established(unit)
 		&& protp->lowerup != NULL)
 		(*protp->lowerup)(unit);
     }
-warn("2got neg_upap = %d", go->neg_upap);
-	warn("got neg_chap = %d", go->neg_chap);
-	warn("got neg_eap = %d", go->neg_eap);
+
     if (!auth_required && noauth_addrs != NULL)
 	set_allowed_addrs(unit, NULL, NULL);
 
@@ -2096,7 +2094,7 @@ auth_number()
 {
     struct wordlist *wp = permitted_numbers;
     int l;
-warn("----------> remote number = %s", remote_number);
+warn("----------> remote number = %s", str(remote_number));
     /* Allow all if no authorization list. */
     if (!wp)
 	return 1;
