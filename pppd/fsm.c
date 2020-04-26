@@ -423,6 +423,7 @@ fsm_rconfreq(f, id, inp, len)
 {
     int code, reject_if_disagree;
 
+    notice("fsm_rconfreq ****** state : %d", f->state);
     switch( f->state ){
     case CLOSED:
 	/* Go away, we're closed */
