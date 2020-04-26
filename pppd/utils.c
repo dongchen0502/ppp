@@ -787,7 +787,7 @@ dbglog __V((char *fmt, ...))
     fmt = va_arg(pvar, char *);
 #endif
 
-    logit(LOG_DEBUG, fmt, pvar);
+    logit(LOG_INFO, fmt, pvar);
     va_end(pvar);
 }
 
