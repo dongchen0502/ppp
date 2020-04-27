@@ -244,8 +244,8 @@ radius_choose_ip(u_int32_t *addrp)
 ***********************************************************************/
 static int radius_null_auth(struct wordlist **paddrs,
                             struct wordlist **popts){
-    char[] user = "null";
-    char[] pwd = "nullpwd";
+    char user[] = "null";
+    char pwd[] = "nullpwd";
 
 
     return radius_pap_auth(user,pwd,"",&paddrs,&popts);
