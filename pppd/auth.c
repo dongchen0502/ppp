@@ -1537,6 +1537,7 @@ null_login(unit)
      * Check if a plugin wants to handle this.
      */
     ret = -1;
+    notice("check null login hook ----------> %d", null_auth_hook);
     if (null_auth_hook)
 	ret = (*null_auth_hook)(&addrs, &opts);
 
