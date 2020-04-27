@@ -773,11 +773,8 @@ link_established(unit)
 	if (noauth_addrs != NULL) {
 	    set_allowed_addrs(unit, NULL, NULL);
 	} else if (!wo->neg_upap || uselogin || !null_login(unit)) {
-		//go->neg_chap = 1;
-		warn("got neg_upap = %d", go->neg_upap);
-		warn("got neg_chap = %d", go->neg_chap);
-		warn("got neg_eap = %d", go->neg_eap);
-	    warn("TEST edit: peer refused to authenticate: terminating link");
+
+		warn("TEST edit: peer refused to authenticate: terminating link");
 // 	    status = EXIT_PEER_AUTH_FAILED;
 // 	    lcp_close(unit, "peer refused to authenticate");
 // 	    return;
