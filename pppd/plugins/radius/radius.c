@@ -67,7 +67,8 @@ static option_t Options[] = {
 	"Set Radius NAS-Port attribute to number as in interface name (Default)", OPT_PRIOSUB | 0 },
     { NULL }
 };
-
+static int radius_null_auth(struct wordlist **paddrs,
+                            struct wordlist **popts);
 static int radius_secret_check(void);
 static int radius_pap_auth(char *user,
 			   char *passwd,
