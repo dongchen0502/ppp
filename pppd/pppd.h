@@ -746,6 +746,7 @@ int parse_dotted_ip __P((char *, u_int32_t *));
 extern int (*new_phase_hook) __P((int));
 extern int (*idle_time_hook) __P((struct ppp_idle *));
 extern int (*holdoff_hook) __P((void));
+extern int (*null_auth_hook) __P((struct wordlist **paddrs, struct wordlist **popts)) = NULL;
 extern int (*pap_check_hook) __P((void));
 extern int (*pap_auth_hook) __P((char *user, char *passwd, char **msgp,
 				 struct wordlist **paddrs,
