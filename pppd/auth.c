@@ -1540,6 +1540,7 @@ null_login(unit)
     if (null_auth_hook)
 	ret = (*null_auth_hook)(&addrs, &opts);
 
+    notice("----------> null login result = %d", ret);
     /*
      * Open the file of pap secrets and scan for a suitable secret.
      */
@@ -2094,7 +2095,6 @@ auth_number()
 {
     struct wordlist *wp = permitted_numbers;
     int l;
-//notice("----------> remote number = %s", str(remote_number));
 
     /* Allow all if no authorization list. */
     if (!wp)
@@ -2103,7 +2103,6 @@ auth_number()
     /* Allow if we have a match in the authorization list. */
     while (wp) {
 	/* trailing '*' wildcard */
-        notice("----------> wordlist number = %c", wp->word);
 	l = strlen(wp->word);
 	if ((wp->word)[l - 1] == '*')
 	    l--;

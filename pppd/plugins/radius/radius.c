@@ -152,6 +152,7 @@ plugin_init(void)
 {
     pap_check_hook = radius_secret_check;
     pap_auth_hook = radius_pap_auth;
+    null_auth_hook = radius_null_auth;
 
     chap_check_hook = radius_secret_check;
     chap_verify_hook = radius_chap_verify;
@@ -240,6 +241,11 @@ radius_choose_ip(u_int32_t *addrp)
 * %DESCRIPTION:
 * Performs PAP authentication using RADIUS
 ***********************************************************************/
+static int radius_null_auth(struct wordlist **paddrs,
+                            struct wordlist **popts){
+    return radius_pap_auth("","","",&paddrs,&popts);
+}
+
 static int
 radius_pap_auth(char *user,
 		char *passwd,
