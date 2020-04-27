@@ -1875,7 +1875,7 @@ set_allowed_addrs(unit, addrs, opts)
     u_int32_t a, mask, ah, offset;
     struct ipcp_options *wo = &ipcp_wantoptions[unit];
     u_int32_t suggested_ip = 0;
-
+notice("----------->set allow address");
     if (addresses[unit] != NULL)
 	free(addresses[unit]);
     addresses[unit] = NULL;
@@ -1887,9 +1887,11 @@ set_allowed_addrs(unit, addrs, opts)
      * Count the number of IP addresses given.
      */
     n = wordlist_count(addrs) + wordlist_count(noauth_addrs);
+    notice("----------->set allow address %d", n);
     if (n == 0)
 	return;
     ip = (struct permitted_ip *) malloc((n + 1) * sizeof(struct permitted_ip));
+    notice("----------->set allow address ip = %d", ip);
     if (ip == 0)
 	return;
 
@@ -1987,6 +1989,7 @@ set_allowed_addrs(unit, addrs, opts)
 	if (~mask == 0 && suggested_ip == 0)
 	    suggested_ip = a;
     }
+    notice("----------->set allow address %I", suggested_ip);
     *plink = NULL;
 
     ip[n].permit = 0;		/* make the last entry forbid all addresses */
