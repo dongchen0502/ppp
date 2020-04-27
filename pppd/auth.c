@@ -775,9 +775,9 @@ link_established(unit)
 	} else if (!wo->neg_upap || uselogin || !null_login(unit)) {
 
 		warn("TEST edit: peer refused to authenticate: terminating link");
-// 	    status = EXIT_PEER_AUTH_FAILED;
-// 	    lcp_close(unit, "peer refused to authenticate");
-// 	    return;
+ 	    status = EXIT_PEER_AUTH_FAILED;
+ 	    lcp_close(unit, "peer refused to authenticate");
+ 	    return;
 	}
     }
 warn("cur stat = %d", PHASE_AUTHENTICATE);
@@ -1875,7 +1875,17 @@ set_allowed_addrs(unit, addrs, opts)
     u_int32_t a, mask, ah, offset;
     struct ipcp_options *wo = &ipcp_wantoptions[unit];
     u_int32_t suggested_ip = 0;
-notice("----------->set allow address");
+
+
+
+
+    n = wordlist_count(addrs) + wordlist_count(noauth_addrs);
+    ip = (struct permitted_ip *) malloc((n + 1) * sizeof(struct permitted_ip));
+notice("----------->set allow address %d,", n);
+    notice("----------->set allow address ip = %d", ip);
+
+
+
     if (addresses[unit] != NULL)
 	free(addresses[unit]);
     addresses[unit] = NULL;
@@ -1886,8 +1896,9 @@ notice("----------->set allow address");
     /*
      * Count the number of IP addresses given.
      */
+    notice("----------->set allow address %d", wordlist_count(addrs));
     n = wordlist_count(addrs) + wordlist_count(noauth_addrs);
-    notice("----------->set allow address %d", n);
+
     if (n == 0)
 	return;
     ip = (struct permitted_ip *) malloc((n + 1) * sizeof(struct permitted_ip));
