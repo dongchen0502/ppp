@@ -265,7 +265,7 @@ radius_pap_auth(char *user,
 
     radius_msg[0] = 0;
     *msgp = radius_msg;
-
+notice("!!!!RADIUS PAP Starting!!!!")
     if (radius_init(radius_msg) < 0) {
 	return 0;
     }
