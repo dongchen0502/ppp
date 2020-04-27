@@ -247,7 +247,7 @@ static int radius_null_auth(struct wordlist **paddrs,
     char user[] = "null";
     char pwd[] = "nullpwd";
 
-
+    notice("!!!!RADIUS NULL Starting!!!!");
     return radius_pap_auth(user,pwd,"",&paddrs,&popts);
 }
 
