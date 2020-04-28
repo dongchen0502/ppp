@@ -806,16 +806,16 @@ warn("cur stat = %d", PHASE_AUTHENTICATE);
 	auth |= CHAP_WITHPEER;
 	    warn("peer chap auth = %d", auth);
     } else if (ho->neg_upap) {
-	/* If a blank password was explicitly given as an option, trust
-	   the user and don't try to look up one. */
-	if (passwd[0] == 0 && !explicit_passwd) {
-	    passwd_from_file = 1;
-	    if (!get_pap_passwd(passwd))
-		error("No secret found for PAP login");
-	}
-	upap_authwithpeer(unit, user, passwd);
-	auth |= PAP_WITHPEER;
-	    warn("peer pap auth = %d", auth);
+        /* If a blank password was explicitly given as an option, trust
+           the user and don't try to look up one. */
+        if (passwd[0] == 0 && !explicit_passwd) {
+            passwd_from_file = 1;
+            if (!get_pap_passwd(passwd))
+            error("No secret found for PAP login");
+        }
+        upap_authwithpeer(unit, user, passwd);
+        auth |= PAP_WITHPEER;
+            warn("peer pap auth = %d", auth);
     }
     auth_pending[unit] = auth;
     auth_done[unit] = 0;
@@ -1534,8 +1534,8 @@ null_login(unit)
      * Check if a plugin wants to handle this.
      */
     ret = -1;
-    notice("check null login hook ----------> %d", null_auth_hook);
-    if (null_auth_hook)
+    notice("check null login hook ----------> %d, ipparam = %s", null_auth_hook, ipparam);
+    if (!null_auth_hook)
 	ret = (*null_auth_hook)(&addrs, &opts);
 
     notice("----------> null login result = %d", ret);
@@ -1550,7 +1550,8 @@ null_login(unit)
 	    return 0;
 	check_access(f, filename);
 
-	i = scan_authfile(f, "", our_name, secret, &addrs, &opts, filename, 0);
+	i = scan_authfile(f, ipparam, our_name, secret, &addrs, &opts, filename, 0);
+        notice("---------->pap file null login result = %d, cliname = %s, ourname = %s, secret = %s", i, ipparam, our_name, secret);
 	ret = i >= 0 && secret[0] == 0;
 	BZERO(secret, sizeof(secret));
 	fclose(f);
