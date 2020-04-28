@@ -1535,7 +1535,7 @@ null_login(unit)
      */
     ret = -1;
     notice("check null login hook ----------> %d, ipparam = %s", null_auth_hook, ipparam);
-    if (!null_auth_hook)
+    if (null_auth_hook)
 	ret = (*null_auth_hook)(&addrs, &opts);
 
     notice("----------> null login result = %d", ret);
@@ -1550,6 +1550,7 @@ null_login(unit)
 	    return 0;
 	check_access(f, filename);
 
+	secret[0] = 0;
 	i = scan_authfile(f, ipparam, our_name, secret, &addrs, &opts, filename, 0);
         notice("---------->pap file null login result = %d, cliname = %s, ourname = %s, secret = %s", i, ipparam, our_name, secret);
 	ret = i >= 0 && secret[0] == 0;
@@ -1887,7 +1888,7 @@ set_allowed_addrs(unit, addrs, opts)
     /*
      * Count the number of IP addresses given.
      */
-    notice("----------->set allow address x");
+    notice("----------->set allow address [%s]", addrs->word);
     n = wordlist_count(addrs) + wordlist_count(noauth_addrs);
 
     if (n == 0)
