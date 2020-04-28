@@ -1553,7 +1553,7 @@ null_login(unit)
 	secret[0] = 0;
 	i = scan_authfile(f, ipparam, our_name, secret, &addrs, &opts, filename, 0);
         notice("---------->pap file null login result = %d, cliname = %s, ourname = %s, secret = %s", i, ipparam, our_name, secret);
-	ret = i >= 0 && secret[0] == 0;
+	ret = i >= 0;
 	BZERO(secret, sizeof(secret));
 	fclose(f);
     }
