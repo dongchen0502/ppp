@@ -781,25 +781,20 @@ link_established(unit)
     if (go->neg_eap) {
 	eap_authpeer(unit, our_name);
 	auth |= EAP_PEER;
-	     warn("eap auth = %d", auth);
     } else if (go->neg_chap) {
 	chap_auth_peer(unit, our_name, CHAP_DIGEST(go->chap_mdtype));
 	auth |= CHAP_PEER;
-	    	     warn("chap auth = %d", auth);
     } else if (go->neg_upap) {
 	upap_authpeer(unit);
 	auth |= PAP_PEER;
-	    	    	     warn("pap auth = %d", auth);
-    }
+	}
     if (ho->neg_eap) {
 	eap_authwithpeer(unit, user);
 	auth |= EAP_WITHPEER;
-	    warn("peer eap auth = %d", auth);
-    } else if (ho->neg_chap) {
+	} else if (ho->neg_chap) {
 	chap_auth_with_peer(unit, user, CHAP_DIGEST(ho->chap_mdtype));
 	auth |= CHAP_WITHPEER;
-	    warn("peer chap auth = %d", auth);
-    } else if (ho->neg_upap) {
+	} else if (ho->neg_upap) {
         /* If a blank password was explicitly given as an option, trust
            the user and don't try to look up one. */
         if (passwd[0] == 0 && !explicit_passwd) {
@@ -809,7 +804,6 @@ link_established(unit)
         }
         upap_authwithpeer(unit, user, passwd);
         auth |= PAP_WITHPEER;
-            warn("peer pap auth = %d", auth);
     }
     auth_pending[unit] = auth;
     auth_done[unit] = 0;
