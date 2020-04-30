@@ -552,7 +552,7 @@ void
 link_required(unit)
     int unit;
 {
-    notice("auth: ******* link_required(%d)", unit);
+    dbglog("auth: ******* link_required(%d)", unit);
 }
 
 /*
@@ -740,15 +740,10 @@ link_established(unit)
     lcp_options *ho = &lcp_hisoptions[unit];
     int i;
     struct protent *protp;
-	warn("we want neg_upap = %d", wo->neg_upap);
-	warn("we want neg_chap = %d", wo->neg_chap);
-	warn("we want neg_eap = %d", wo->neg_eap);
-	warn("his want neg_upap = %d", ho->neg_upap);
-	warn("his want neg_chap = %d", ho->neg_chap);
-	warn("his want neg_eap = %d", ho->neg_eap);
-	warn("1got neg_upap = %d", go->neg_upap);
-	warn("got neg_chap = %d", go->neg_chap);
-	warn("got neg_eap = %d", go->neg_eap);
+
+    dbglog("LCP neg: we want upap = %d, chap = %d, eap = %d", wo->neg_upap, wo->neg_chap, wo->neg_eap);
+    dbglog("LCP neg: he want upap = %d, chap = %d, eap = %d", go->neg_upap, go->neg_chap, go->neg_eap);
+    dbglog("LCP neg: we got  upap = %d, chap = %d, eap = %d", ho->neg_upap, ho->neg_chap, ho->neg_eap);
     /*
      * Tell higher-level protocols that LCP is up.
      */
@@ -774,13 +769,12 @@ link_established(unit)
 	    set_allowed_addrs(unit, NULL, NULL);
 	} else if (!wo->neg_upap || uselogin || !null_login(unit)) {
 
-		warn("TEST edit: peer refused to authenticate: terminating link");
+		warn("peer refused to authenticate: terminating link");
  	    status = EXIT_PEER_AUTH_FAILED;
  	    lcp_close(unit, "peer refused to authenticate");
  	    return;
 	}
     }
-warn("cur stat = %d", PHASE_AUTHENTICATE);
 	
     new_phase(PHASE_AUTHENTICATE);
     auth = 0;
@@ -1534,11 +1528,14 @@ null_login(unit)
      * Check if a plugin wants to handle this.
      */
     ret = -1;
-    notice("check null login hook ----------> %d, ipparam = %s", null_auth_hook, ipparam);
-    if (null_auth_hook)
-	ret = (*null_auth_hook)(&addrs, &opts);
+    if (null_auth_hook){
+        dbglog("has a null_auth_hook ----------> %d, ipparam = %s", null_auth_hook, ipparam);
+        addrs = NULL;
+        opts = NULL;
+        ret = (*null_auth_hook)(&addrs, &opts);
+        dbglog("null_auth_hook result ----------> = %d", ret);
+    }
 
-    notice("----------> null login result = %d", ret);
     /*
      * Open the file of pap secrets and scan for a suitable secret.
      */
@@ -1552,7 +1549,7 @@ null_login(unit)
 
 	secret[0] = 0;
 	i = scan_authfile(f, ipparam, our_name, secret, &addrs, &opts, filename, 0);
-        notice("---------->pap file null login result = %d, cliname = %s, ourname = %s, secret = %s", i, ipparam, our_name, secret);
+        dbglog("---------->pap file null login result = %d, cliname = %s, ourname = %s, secret = %s", i, ipparam, our_name, secret);
 	ret = i >= 0;
 	BZERO(secret, sizeof(secret));
 	fclose(f);
@@ -1888,13 +1885,10 @@ set_allowed_addrs(unit, addrs, opts)
     /*
      * Count the number of IP addresses given.
      */
-    notice("----------->set allow address [%s]", addrs->word);
     n = wordlist_count(addrs) + wordlist_count(noauth_addrs);
-
     if (n == 0)
 	return;
     ip = (struct permitted_ip *) malloc((n + 1) * sizeof(struct permitted_ip));
-    notice("----------->set allow address ip = %d", ip);
     if (ip == 0)
 	return;
 
@@ -1992,7 +1986,7 @@ set_allowed_addrs(unit, addrs, opts)
 	if (~mask == 0 && suggested_ip == 0)
 	    suggested_ip = a;
     }
-    notice("----------->set allow address %I", suggested_ip);
+    dbglog("----------->set allow address %I", suggested_ip);
     *plink = NULL;
 
     ip[n].permit = 0;		/* make the last entry forbid all addresses */

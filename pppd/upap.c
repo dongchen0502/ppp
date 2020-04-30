@@ -379,7 +379,7 @@ upap_rauthreq(u, inp, id, len)
     int retcode;
     char *msg;
     int msglen;
-notice("pap auth_status = %d", u->us_serverstate);
+
     if (u->us_serverstate < UPAPSS_LISTEN)
 	return;
 
@@ -387,14 +387,14 @@ notice("pap auth_status = %d", u->us_serverstate);
      * If we receive a duplicate authenticate-request, we are
      * supposed to return the same status as for the first request.
      */
-//    if (u->us_serverstate == UPAPSS_OPEN) {
-//	upap_sresp(u, UPAP_AUTHACK, id, "", 0);	/* return auth-ack */
-//	return;
-//    }
-//    if (u->us_serverstate == UPAPSS_BADAUTH) {
-//	upap_sresp(u, UPAP_AUTHNAK, id, "", 0);	/* return auth-nak */
-//	return;
-//    }
+    if (u->us_serverstate == UPAPSS_OPEN) {
+	upap_sresp(u, UPAP_AUTHACK, id, "", 0);	/* return auth-ack */
+	return;
+    }
+    if (u->us_serverstate == UPAPSS_BADAUTH) {
+	upap_sresp(u, UPAP_AUTHNAK, id, "", 0);	/* return auth-nak */
+	return;
+    }
 
     /*
      * Parse user/passwd.
@@ -417,7 +417,6 @@ notice("pap auth_status = %d", u->us_serverstate);
 	return;
     }
     rpasswd = (char *) inp;
-    notice("input package: user = %s, pass = %s", ruser,rpasswd);
     /*
      * Check the username and password given.
      */
