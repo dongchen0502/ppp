@@ -742,8 +742,8 @@ link_established(unit)
     struct protent *protp;
 
     dbglog("LCP neg: we want upap = %d, chap = %d, eap = %d", wo->neg_upap, wo->neg_chap, wo->neg_eap);
-    dbglog("LCP neg: he want upap = %d, chap = %d, eap = %d", go->neg_upap, go->neg_chap, go->neg_eap);
-    dbglog("LCP neg: we got  upap = %d, chap = %d, eap = %d", ho->neg_upap, ho->neg_chap, ho->neg_eap);
+    dbglog("LCP neg: we got  upap = %d, chap = %d, eap = %d", go->neg_upap, go->neg_chap, go->neg_eap);
+    dbglog("LCP neg: he want upap = %d, chap = %d, eap = %d", ho->neg_upap, ho->neg_chap, ho->neg_eap);
     /*
      * Tell higher-level protocols that LCP is up.
      */
