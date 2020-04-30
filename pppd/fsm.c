@@ -103,7 +103,6 @@ fsm_lowerup(f)
 	break;
 
     case STARTING:
-	warn("fsm-lowerup:STARTING flag = %d, silent = %d",f->flags,OPT_SILENT);
 	if( f->flags & OPT_SILENT )
 	    f->state = STOPPED;
 	else {
@@ -174,14 +173,12 @@ fsm_open(f)
 	
     switch( f->state ){
     case INITIAL:
-	warn("INITIAL*******fsm state = %d", f->state);
 	f->state = STARTING;
 	if( f->callbacks->starting )
 	    (*f->callbacks->starting)(f);
 	break;
 
     case CLOSED:
-	warn("CLOSED*******fsm state = %d", f->state);		    
 	if( f->flags & OPT_SILENT )
 	    f->state = STOPPED;
 	else {
@@ -192,12 +189,10 @@ fsm_open(f)
 	break;
 
     case CLOSING:
-	warn("CLOSING*******fsm state = %d", f->state);	    
 	f->state = STOPPING;
 	/* fall through */
     case STOPPED:
     case OPENED:
-	warn("OPENED*******fsm state = %d", f->state);	 
 	if( f->flags & OPT_RESTART ){
 	    fsm_lowerdown(f);
 	    fsm_lowerup(f);
@@ -423,7 +418,6 @@ fsm_rconfreq(f, id, inp, len)
 {
     int code, reject_if_disagree;
 
-    notice("fsm_rconfreq ****** state : %d", f->state);
     switch( f->state ){
     case CLOSED:
 	/* Go away, we're closed */
